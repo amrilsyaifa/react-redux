@@ -14,19 +14,31 @@
 
 import { createStore } from 'redux'
 
-const reducer = (state, action) => {
+const initialState = {
+    result: 1,
+    lastValues: []
+}
+
+const reducer = (state = initialState, action) => {
     switch (action.type) {
         case 'ADD':
-            state = state + action.payload
+            //menggunakan spread operator untuk membuat object baru. biasa di sebut immutable
+            state = {
+                ...state,
+                result: state.result + action.payload
+            }
             break
         case 'SUBTRACK':
-            state = state - action.payload
+            state = {
+                ...state,
+                result: state.result - action.payload
+            }
             break
     }
     return state
 }
 
-const store = createStore(reducer, 10)
+const store = createStore(reducer)
 store.subscribe(() => {
     console.log('Store Updated', store.getState())
 })
