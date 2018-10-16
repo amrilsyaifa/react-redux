@@ -23,15 +23,19 @@ const reducer = (state = initialState, action) => {
     switch (action.type) {
         case 'ADD':
             //menggunakan spread operator untuk membuat object baru. biasa di sebut immutable
+            //https://medium.com/coderupa/immutable-data-dalam-javascript-db6c70b7daa0
+
             state = {
                 ...state,
-                result: state.result + action.payload
+                result: state.result + action.payload,
+                lastValues: [...state.lastValues, action.payload]
             }
             break
         case 'SUBTRACK':
             state = {
                 ...state,
-                result: state.result - action.payload
+                result: state.result - action.payload,
+                lastValues: [...state.lastValues, action.payload]
             }
             break
     }
