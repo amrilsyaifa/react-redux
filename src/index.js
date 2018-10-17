@@ -12,7 +12,8 @@
 // serviceWorker.unregister();
 
 
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import logger from 'redux-logger'
 
 const mathReducer = (state = {
     result: 1,
@@ -20,9 +21,6 @@ const mathReducer = (state = {
 }, action) => {
     switch (action.type) {
         case 'ADD':
-            //menggunakan spread operator untuk membuat object baru. biasa di sebut immutable
-            //https://medium.com/coderupa/immutable-data-dalam-javascript-db6c70b7daa0
-
             state = {
                 ...state,
                 result: state.result + action.payload,
@@ -39,8 +37,6 @@ const mathReducer = (state = {
     }
     return state
 }
-
-//membuat banyak reducer harus di tambah combine reducer.
 
 const userReducer = (state = {
     name: 'Max',
@@ -63,9 +59,13 @@ const userReducer = (state = {
     return state
 }
 
-const store = createStore(combineReducers({ mathReducer, userReducer }))
+const store = createStore(
+    combineReducers({ mathReducer, userReducer }),
+    {},
+    applyMiddleware(logger)
+)
 store.subscribe(() => {
-    console.log('Store Updated', store.getState())
+    // console.log('Store Updated', store.getState())
 })
 
 store.dispatch({
