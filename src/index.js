@@ -12,14 +12,12 @@
 // serviceWorker.unregister();
 
 
-import { createStore } from 'redux'
+import { createStore, combineReducers } from 'redux'
 
-const initialState = {
+const mathReducer = (state = {
     result: 1,
     lastValues: []
-}
-
-const reducer = (state = initialState, action) => {
+}, action) => {
     switch (action.type) {
         case 'ADD':
             //menggunakan spread operator untuk membuat object baru. biasa di sebut immutable
@@ -42,7 +40,30 @@ const reducer = (state = initialState, action) => {
     return state
 }
 
-const store = createStore(reducer)
+//membuat banyak reducer harus di tambah combine reducer.
+
+const userReducer = (state = {
+    name: 'Max',
+    age: 27
+}, action) => {
+    switch (action.type) {
+        case 'SET_NAME':
+            state = {
+                ...state,
+                name: action.payload
+            }
+            break
+        case 'SET_AGE':
+            state = {
+                ...state,
+                age: action.payload
+            }
+            break
+    }
+    return state
+}
+
+const store = createStore(combineReducers({ mathReducer, userReducer }))
 store.subscribe(() => {
     console.log('Store Updated', store.getState())
 })
@@ -59,5 +80,20 @@ store.dispatch({
 
 store.dispatch({
     type: 'SUBTRACK',
+    payload: 50
+})
+
+store.dispatch({
+    type: 'SET_NAME',
+    payload: 'amril'
+})
+
+store.dispatch({
+    type: 'SET_AGE',
+    payload: 200
+})
+
+store.dispatch({
+    type: 'SET_AGE',
     payload: 50
 })
