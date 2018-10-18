@@ -6,16 +6,10 @@ import { Main } from './app/components/Main'
 import { User } from './app/components/User'
 
 class App extends Component {
-  constructor() {
-    super();
-  }
-
-  changeUsername(newName) {
-  }
   render() {
     return (
       <div className="App">
-        <Main changeUsername={this.changeUsername.bind(this)} />
+        <Main changeUsername={() => this.props.setName("anna")} />
         <User username={this.props.user.name} />
       </div>
     );
