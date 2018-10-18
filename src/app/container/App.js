@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import { connect } from 'react-redux'
 
-import { Main } from './app/components/Main'
-import { User } from './app/components/User'
+import { Main } from '../components/Main'
+import { User } from '../components/User'
 
 class App extends Component {
   render() {
