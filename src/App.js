@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import { connect } from 'react-redux'
 
 import { Main } from './app/components/Main'
 import { User } from './app/components/User'
@@ -7,24 +8,38 @@ import { User } from './app/components/User'
 class App extends Component {
   constructor() {
     super();
-    this.state = {
-      username: "Max"
-    };
   }
 
   changeUsername(newName) {
-    this.setState({
-      username: newName
-    });
   }
   render() {
     return (
       <div className="App">
         <Main changeUsername={this.changeUsername.bind(this)} />
-        <User username={this.state.username} />
+        <User username={this.props.user.name} />
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+    match: state.match
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setName: (name) => {
+      dispatch({
+        type: 'SET_NAME',
+        payload: name
+      })
+    }
+  }
+}
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
